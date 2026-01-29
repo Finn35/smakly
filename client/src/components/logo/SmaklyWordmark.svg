@@ -1,0 +1,14 @@
+<svg width="80" height="24" viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wordmark: "smakly" in geometric sans-serif style -->
+  <!-- Using precise letter forms with consistent stroke and spacing -->
+  <text 
+    x="0" 
+    y="18" 
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" 
+    font-size="20" 
+    font-weight="600" 
+    letter-spacing="-0.02em"
+    fill="#111827"
+  >smakly</text>
+</svg>
+

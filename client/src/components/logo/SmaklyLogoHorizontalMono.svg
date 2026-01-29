@@ -1,0 +1,19 @@
+<svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon - Dark Navy Mono -->
+  <g transform="translate(0, 4)">
+    <rect x="8" y="4" width="16" height="24" rx="8" stroke="#0F172A" stroke-width="2" fill="none"/>
+    <circle cx="16" cy="11" r="2" fill="#0F172A"/>
+    <rect x="11" y="19" width="10" height="2" rx="1" fill="#0F172A"/>
+  </g>
+  <!-- Wordmark - Dark Navy -->
+  <text 
+    x="44" 
+    y="26" 
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" 
+    font-size="22" 
+    font-weight="600" 
+    letter-spacing="-0.02em"
+    fill="#0F172A"
+  >smakly</text>
+</svg>
+

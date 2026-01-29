@@ -1,0 +1,26 @@
+<svg width="64" height="72" viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-gradient-s" x1="16" y1="0" x2="48" y2="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon - Gradient -->
+  <g transform="translate(16, 0)">
+    <rect x="8" y="4" width="16" height="24" rx="8" stroke="url(#logo-gradient-s)" stroke-width="2" fill="none"/>
+    <circle cx="16" cy="11" r="2" fill="url(#logo-gradient-s)"/>
+    <rect x="11" y="19" width="10" height="2" rx="1" fill="url(#logo-gradient-s)"/>
+  </g>
+  <!-- Wordmark - Gradient -->
+  <text 
+    x="32" 
+    y="58" 
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" 
+    font-size="16" 
+    font-weight="600" 
+    letter-spacing="-0.02em"
+    text-anchor="middle"
+    fill="url(#logo-gradient-s)"
+  >smakly</text>
+</svg>
+
