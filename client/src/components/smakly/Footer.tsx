@@ -124,7 +124,7 @@ export default function Footer() {
                   </svg>
                 </div>
                 <p className="text-[#1A1918] font-medium">Bedankt!</p>
-                <p className="text-[13px] sm:text-sm text-[#787571] mt-1">We nemen snel contact op.</p>
+                <p className="text-[13px] sm:text-sm text-[#787571] mt-1">Je bericht is ontvangen. We reageren zo snel mogelijk.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">

@@ -74,13 +74,8 @@ export default function ContactForm() {
               Bedankt!
             </h2>
             <p className="mt-2 sm:mt-3 text-[13px] sm:text-sm text-[#787571] leading-relaxed">
-              Onze pilotgroep is bijna vol. We nemen binnenkort contact met je op.
+              Je aanvraag is ontvangen. We nemen zo snel mogelijk contact met je op.
             </p>
-            <div className="mt-5 sm:mt-6 p-3 bg-[#FAF9F7] rounded-lg">
-              <p className="text-[11px] sm:text-xs text-[#787571]">
-                Tip: Voeg <span className="font-medium text-[#434240]">hallo@smakly.nl</span> toe aan je contacten
-              </p>
-            </div>
           </div>
         </div>
       </section>
