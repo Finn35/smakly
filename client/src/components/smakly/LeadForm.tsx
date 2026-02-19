@@ -3,7 +3,7 @@ import { submitLead } from "@/lib/supabase";
 
 interface FormData {
   business_name: string;
-  maps_url: string;
+  location: string;
   email: string;
   phone: string;
 }
@@ -11,7 +11,7 @@ interface FormData {
 export default function LeadForm() {
   const [formData, setFormData] = useState<FormData>({
     business_name: "",
-    maps_url: "",
+    location: "",
     email: "",
     phone: "",
   });
@@ -33,7 +33,7 @@ export default function LeadForm() {
     try {
       await submitLead({
         business_name: formData.business_name,
-        maps_url: formData.maps_url,
+        maps_url: formData.location,
         email: formData.email,
         phone: formData.phone || undefined,
       });
@@ -106,21 +106,18 @@ export default function LeadForm() {
 
               <div>
                 <label htmlFor="maps_url" className="block text-sm font-medium text-[#434240] mb-1.5">
-                  Google Maps link
+                  Plaats
                 </label>
                 <input
-                  type="url"
-                  id="maps_url"
-                  name="maps_url"
-                  value={formData.maps_url}
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={formData.location}
                   onChange={handleChange}
                   required
-                  placeholder="https://maps.google.com/..."
+                  placeholder="Bijv. Den Haag"
                   className="w-full px-4 py-3 rounded-xl border border-[#E8E6E1] bg-white text-[#1A1918] text-sm placeholder:text-[#A8A5A0] transition-colors duration-200 focus:border-[#4F7DF3] focus:outline-none shadow-sm"
                 />
-                <p className="mt-1 text-[11px] text-[#A8A5A0]">
-                  Zoek je bedrijf op Google Maps en kopieer de link uit je browser.
-                </p>
               </div>
 
               <div>
