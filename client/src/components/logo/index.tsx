@@ -149,3 +149,4 @@ export default function SmaklyLogo({
 // Export individual components for flexibility
 export { SmaklyIconSVG };
 
+

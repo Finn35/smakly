@@ -1,10 +1,11 @@
 import Navbar from "@/components/smakly/Navbar";
 import Hero from "@/components/smakly/Hero";
-import ProblemSection from "@/components/smakly/ProblemSection";
-import SolutionSection from "@/components/smakly/SolutionSection";
-import ChatDemo from "@/components/smakly/ChatDemo";
-import CTABlock from "@/components/smakly/CTABlock";
-import ContactForm from "@/components/smakly/ContactForm";
+import PainPoints from "@/components/smakly/PainPoints";
+import Features from "@/components/smakly/Features";
+import HowItWorks from "@/components/smakly/HowItWorks";
+import Dashboard from "@/components/smakly/Dashboard";
+import Testimonials from "@/components/smakly/Testimonials";
+import LeadForm from "@/components/smakly/LeadForm";
 import Footer from "@/components/smakly/Footer";
 
 export default function SmaklyLanding() {
@@ -13,14 +14,16 @@ export default function SmaklyLanding() {
       <Navbar />
       <main>
         <Hero />
-        <ProblemSection />
-        <SolutionSection />
-        <ChatDemo />
-        <CTABlock />
-        <ContactForm />
+        <PainPoints />
+        <div id="features">
+          <Features />
+        </div>
+        <HowItWorks />
+        <Dashboard />
+        <Testimonials />
+        <LeadForm />
       </main>
       <Footer />
     </div>
   );
 }
-

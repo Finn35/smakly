@@ -90,6 +90,7 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
   
   body {
@@ -97,6 +98,8 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     line-height: 1.6;
     letter-spacing: -0.011em;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -249,6 +252,15 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--warm-gray-400);
+}
+
+/* Prevent iOS zoom on input focus (requires >= 16px font-size) */
+@media screen and (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 /* Input focus - Subtle */

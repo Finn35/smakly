@@ -34,6 +34,34 @@ export async function submitSmaklyForm(data: SmaklyFormSubmission) {
   return { success: true };
 }
 
+// Lead form submission (Google Maps analysis request)
+export interface LeadSubmission {
+  business_name: string;
+  maps_url: string;
+  email: string;
+  phone?: string;
+}
+
+export async function submitLead(data: LeadSubmission) {
+  const { error } = await supabase
+    .from('leads')
+    .insert([{
+      business_name: data.business_name,
+      maps_url: data.maps_url,
+      email: data.email,
+      phone: data.phone || null,
+      user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+      source: 'landing_page',
+    }]);
+
+  if (error) {
+    console.error('Error submitting lead:', error);
+    throw new Error('Failed to submit lead');
+  }
+
+  return { success: true };
+}
+
 // Contact message submission (footer form)
 export interface ContactMessage {
   naam: string;
