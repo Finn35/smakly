@@ -10,16 +10,11 @@ export default function LiveJobs() {
     <section className="bg-gray-50 border-t border-gray-100 py-14 sm:py-16">
       <div className="max-w-lg mx-auto px-5">
 
-        {/* Trust header */}
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-          100% echte klussen – geplaatst vandaag
-        </p>
-
         {/* Section title */}
         <div className="flex items-center gap-2 mb-5">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#FF6A00]" />
           <h2 className="text-base font-bold text-gray-900 tracking-tight">
-            Recent geplaatste klussen
+            Voorbeeldklussen
           </h2>
         </div>
 

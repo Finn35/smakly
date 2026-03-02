@@ -6,27 +6,6 @@ import LiveJobs from "@/components/klussen/LiveJobs";
 import Testimonials from "@/components/klussen/Testimonials";
 import KlussenFooter from "@/components/klussen/KlussenFooter";
 
-/* Mini avatar stack – shows 4 colored circles with initials */
-function AvatarStack() {
-  const avatars = [
-    { initials: "JD", bg: "bg-blue-200",   text: "text-blue-800" },
-    { initials: "MR", bg: "bg-violet-200", text: "text-violet-800" },
-    { initials: "KP", bg: "bg-amber-200",  text: "text-amber-800" },
-    { initials: "SB", bg: "bg-green-200",  text: "text-green-800" },
-  ];
-  return (
-    <div className="flex -space-x-2">
-      {avatars.map((a) => (
-        <div
-          key={a.initials}
-          className={`w-7 h-7 rounded-full ${a.bg} ${a.text} border-2 border-white flex items-center justify-center text-[10px] font-bold`}
-        >
-          {a.initials}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 export default function SmaklyLanding() {
   const scrollToForm = () => {
@@ -63,25 +42,18 @@ export default function SmaklyLanding() {
             {/* Multi-step form */}
             <JobForm />
 
-            {/* Stats strip with avatar stack */}
-            <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 pt-8 border-t border-gray-100 mt-2">
-              <div className="text-center">
-                <div className="text-xl font-bold text-gray-900">1.247+</div>
-                <div className="text-xs text-gray-500 mt-0.5">klussen geplaatst</div>
-              </div>
-
-              {/* Avatar stack + count */}
-              <div className="flex flex-col items-center gap-1.5">
-                <AvatarStack />
-                <div className="text-xs text-gray-500">
-                  <span className="font-bold text-gray-900">389</span> vakmensen actief
+            {/* Boutique trust badges */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-8 border-t border-gray-100 mt-2">
+              {[
+                { icon: "✦", text: "Persoonlijk geselecteerde vakmensen" },
+                { icon: "✦", text: "Gratis & vrijblijvend" },
+                { icon: "✦", text: "Reactie binnen 2 uur" },
+              ].map((b) => (
+                <div key={b.text} className="flex items-center gap-2 text-sm text-gray-500">
+                  <span className="text-[#FF6A00] text-xs">{b.icon}</span>
+                  {b.text}
                 </div>
-              </div>
-
-              <div className="text-center">
-                <div className="text-xl font-bold text-gray-900">4.8 ★</div>
-                <div className="text-xs text-gray-500 mt-0.5">gemiddelde score</div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
