@@ -1,8 +1,6 @@
 import KlussenNavbar from "@/components/klussen/KlussenNavbar";
 import JobForm from "@/components/klussen/JobForm";
 import HowItWorks from "@/components/klussen/HowItWorks";
-import Categories from "@/components/klussen/Categories";
-import LiveJobs from "@/components/klussen/LiveJobs";
 import Testimonials from "@/components/klussen/Testimonials";
 import KlussenFooter from "@/components/klussen/KlussenFooter";
 
@@ -59,9 +57,7 @@ export default function SmaklyLanding() {
         </section>
 
         <HowItWorks />
-        <Categories />
         <Testimonials />
-        <LiveJobs />
 
         {/* ── Final CTA ── */}
         <section className="py-16 sm:py-20 px-5 bg-white border-t border-gray-100 text-center">
