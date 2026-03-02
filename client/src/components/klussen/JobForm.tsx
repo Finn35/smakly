@@ -261,15 +261,6 @@ export default function JobForm() {
         )}
       </div>
 
-      {/* Trust badges */}
-      <div className="flex flex-wrap justify-center gap-5 sm:gap-8 px-5 pb-6 border-t border-gray-50 pt-4">
-        {["Gratis plaatsen", "Reactie binnen 2 uur", "Lokale vakmensen"].map((t) => (
-          <div key={t} className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
-            <div className="w-4 h-4 rounded-full bg-green-50 flex items-center justify-center text-[9px] text-green-600 font-bold">✓</div>
-            {t}
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
