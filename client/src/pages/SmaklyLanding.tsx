@@ -3,7 +3,30 @@ import JobForm from "@/components/klussen/JobForm";
 import HowItWorks from "@/components/klussen/HowItWorks";
 import Categories from "@/components/klussen/Categories";
 import LiveJobs from "@/components/klussen/LiveJobs";
+import Testimonials from "@/components/klussen/Testimonials";
 import KlussenFooter from "@/components/klussen/KlussenFooter";
+
+/* Mini avatar stack – shows 4 colored circles with initials */
+function AvatarStack() {
+  const avatars = [
+    { initials: "JD", bg: "bg-blue-200",   text: "text-blue-800" },
+    { initials: "MR", bg: "bg-violet-200", text: "text-violet-800" },
+    { initials: "KP", bg: "bg-amber-200",  text: "text-amber-800" },
+    { initials: "SB", bg: "bg-green-200",  text: "text-green-800" },
+  ];
+  return (
+    <div className="flex -space-x-2">
+      {avatars.map((a) => (
+        <div
+          key={a.initials}
+          className={`w-7 h-7 rounded-full ${a.bg} ${a.text} border-2 border-white flex items-center justify-center text-[10px] font-bold`}
+        >
+          {a.initials}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function SmaklyLanding() {
   const scrollToForm = () => {
@@ -13,48 +36,81 @@ export default function SmaklyLanding() {
   return (
     <div className="min-h-screen bg-white">
       <KlussenNavbar />
+
       <main>
-        {/* Hero */}
-        <section className="max-w-[560px] mx-auto pt-20 sm:pt-24 pb-0 px-5 text-center">
-          <div className="inline-flex items-center gap-1.5 bg-[#E84500]/[0.08] text-[#E84500] px-3 py-1.5 rounded-full text-xs font-semibold mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E84500] animate-pulse" />
-            Klein klusje? Wij regelen het
+        {/* ── Hero ── */}
+        <section className="bg-white pt-20 sm:pt-24 pb-14 px-5">
+          <div className="max-w-lg mx-auto text-center">
+
+            {/* Pill */}
+            <div className="inline-flex items-center gap-2 bg-[#FF6A00]/[0.07] border border-[#FF6A00]/20 text-[#FF6A00] px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF6A00] animate-pulse" />
+              Klein klusje? Wij regelen het
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-[2.5rem] sm:text-[3.5rem] font-bold text-gray-900 leading-[1.08] tracking-tight mb-4">
+              Klusser nodig?
+              <br />
+              <span className="text-[#FF6A00]">Vandaag</span> geregeld.
+            </h1>
+
+            {/* Subtext */}
+            <p className="text-base text-gray-500 leading-relaxed max-w-sm mx-auto mb-8">
+              Binnen 2 uur reactie van lokale vakmensen. Gratis klus plaatsen — geen verplichtingen.
+            </p>
+
+            {/* Multi-step form */}
+            <JobForm />
+
+            {/* Stats strip with avatar stack */}
+            <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 pt-8 border-t border-gray-100 mt-2">
+              <div className="text-center">
+                <div className="text-xl font-bold text-gray-900">1.247+</div>
+                <div className="text-xs text-gray-500 mt-0.5">klussen geplaatst</div>
+              </div>
+
+              {/* Avatar stack + count */}
+              <div className="flex flex-col items-center gap-1.5">
+                <AvatarStack />
+                <div className="text-xs text-gray-500">
+                  <span className="font-bold text-gray-900">389</span> vakmensen actief
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="text-xl font-bold text-gray-900">4.8 ★</div>
+                <div className="text-xs text-gray-500 mt-0.5">gemiddelde score</div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-[2.8rem] font-extrabold text-[#0C0C0C] leading-tight tracking-tight mb-4">
-            Klusser nodig?
-            <br />
-            <span className="text-[#E84500]">Vandaag</span> geregeld.
-          </h1>
-          <p className="text-base text-[#6B6B6B] leading-relaxed max-w-[400px] mx-auto mb-9">
-            Beschrijf je klus in 30 seconden. Wij zoeken een betrouwbare vakman bij jou in de buurt.
-          </p>
-          <JobForm />
         </section>
 
         <HowItWorks />
         <Categories />
+        <Testimonials />
         <LiveJobs />
 
-        {/* Final CTA */}
-        <section className="py-16 sm:py-20 px-5 text-center">
-          <div className="max-w-[480px] mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0C0C0C] tracking-tight mb-2 leading-tight">
+        {/* ── Final CTA ── */}
+        <section className="py-16 sm:py-20 px-5 bg-white border-t border-gray-100 text-center">
+          <div className="max-w-sm mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-3">
               Klus te klaren?
-              <br />
-              Wij regelen het.
+              <br />Wij regelen het.
             </h2>
-            <p className="text-[#6B6B6B] text-sm sm:text-base mb-6">
+            <p className="text-gray-500 text-sm mb-7">
               Gratis · Geen verplichtingen · Reactie binnen 2 uur
             </p>
             <button
               onClick={scrollToForm}
-              className="px-9 py-4 bg-[#E84500] text-white font-bold rounded-full text-base hover:opacity-90 transition-opacity shadow-[0_4px_16px_rgba(232,69,0,0.3)]"
+              className="bg-[#FF6A00] hover:bg-[#e85f00] text-white font-semibold px-8 py-3.5 rounded-xl transition-colors shadow-sm"
             >
               Klus plaatsen →
             </button>
           </div>
         </section>
       </main>
+
       <KlussenFooter />
     </div>
   );

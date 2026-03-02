@@ -2,133 +2,157 @@ import Logo from "@/components/smakly/Logo";
 
 export default function SmaklyCookies() {
   return (
-    <div className="min-h-screen bg-[#FAF9F7]">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="py-6 border-b border-[#E8E6E1]">
-        <div className="container mx-auto">
+      <header className="sticky top-0 z-10 bg-white border-b border-gray-100 shadow-sm">
+        <div className="max-w-2xl mx-auto px-5 h-14 flex items-center justify-between">
           <a href="/">
-            <Logo size="md" variant="default" />
+            <Logo size="md" variant="default" showWordmark={true} withHat={true} />
+          </a>
+          <a
+            href="/"
+            className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Terug naar home
           </a>
         </div>
       </header>
 
-      {/* Content */}
-      <main className="py-16">
-        <div className="container mx-auto">
-          <div className="max-w-2xl mx-auto">
-            <h1 className="text-3xl font-semibold text-[#1A1918] tracking-tight mb-8">
-              Cookiebeleid
-            </h1>
+      <main className="max-w-2xl mx-auto px-5 py-12 sm:py-16">
+        <div className="mb-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#FF6A00] mb-2">
+            Juridisch
+          </p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-3">
+            Cookiebeleid
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Laatst bijgewerkt: februari 2026 · Smakly B.V., Amsterdam
+          </p>
+        </div>
 
-            <div className="prose prose-gray max-w-none">
-              <p className="text-[#787571] leading-relaxed mb-6">
-                Laatst bijgewerkt: januari 2025
-              </p>
+        <div className="space-y-8 text-sm text-gray-600 leading-relaxed">
 
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-[#1A1918] mb-3">
-                  Wat zijn cookies?
-                </h2>
-                <p className="text-[#5C5955] leading-relaxed">
-                  Cookies zijn kleine tekstbestanden die op uw computer of mobiele apparaat 
-                  worden opgeslagen wanneer u een website bezoekt. Ze worden veel gebruikt 
-                  om websites te laten werken en om informatie te verstrekken aan de eigenaren 
-                  van de website.
-                </p>
-              </section>
+          <section className="border-b border-gray-100 pb-8">
+            <h2 className="flex items-center gap-2 text-base font-bold text-gray-900 mb-3">
+              <span className="w-6 h-6 rounded-md bg-gray-100 text-gray-500 text-xs font-bold flex items-center justify-center">1</span>
+              Wat zijn cookies?
+            </h2>
+            <p>
+              Cookies zijn kleine tekstbestanden die op uw apparaat worden opgeslagen wanneer u
+              onze website bezoekt. Ze helpen ons de website goed te laten werken en inzicht te
+              krijgen in het gebruik ervan.
+            </p>
+          </section>
 
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-[#1A1918] mb-3">
-                  Welke cookies gebruiken wij?
-                </h2>
-                <p className="text-[#5C5955] leading-relaxed mb-4">
-                  Smakly.nl maakt alleen gebruik van <strong>strikt noodzakelijke cookies</strong>. 
-                  Dit zijn cookies die essentieel zijn voor de werking van de website.
-                </p>
-                
-                <div className="bg-white rounded-lg border border-[#E8E6E1] overflow-hidden">
-                  <table className="w-full text-sm">
-                    <thead className="bg-[#FAF9F7]">
-                      <tr>
-                        <th className="text-left px-4 py-3 text-[#1A1918] font-medium">Cookie</th>
-                        <th className="text-left px-4 py-3 text-[#1A1918] font-medium">Doel</th>
-                        <th className="text-left px-4 py-3 text-[#1A1918] font-medium">Duur</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#E8E6E1]">
-                      <tr>
-                        <td className="px-4 py-3 text-[#5C5955]">Sessie</td>
-                        <td className="px-4 py-3 text-[#5C5955]">Onthouden van formuliergegevens</td>
-                        <td className="px-4 py-3 text-[#5C5955]">Sessie</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
+          <section className="border-b border-gray-100 pb-8">
+            <h2 className="flex items-center gap-2 text-base font-bold text-gray-900 mb-3">
+              <span className="w-6 h-6 rounded-md bg-gray-100 text-gray-500 text-xs font-bold flex items-center justify-center">2</span>
+              Welke cookies gebruiken wij?
+            </h2>
+            <p className="mb-4">Smakly maakt gebruik van de volgende categorieën cookies:</p>
 
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-[#1A1918] mb-3">
-                  Geen tracking cookies
-                </h2>
-                <p className="text-[#5C5955] leading-relaxed">
-                  Wij gebruiken <strong>geen</strong> tracking cookies, analytische cookies of 
-                  advertentiecookies. Wij volgen uw surfgedrag niet en delen geen gegevens 
-                  met advertentienetwerken.
-                </p>
-              </section>
-
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-[#1A1918] mb-3">
-                  Cookies beheren
-                </h2>
-                <p className="text-[#5C5955] leading-relaxed">
-                  U kunt cookies beheren via de instellingen van uw browser. Let op: het 
-                  uitschakelen van cookies kan de werking van de website beïnvloeden.
-                </p>
-              </section>
-
-              <section className="mb-8">
-                <h2 className="text-lg font-semibold text-[#1A1918] mb-3">
-                  Contact
-                </h2>
-                <p className="text-[#5C5955] leading-relaxed">
-                  Heeft u vragen over ons cookiebeleid? Neem contact met ons op via{" "}
-                  <a 
-                    href="mailto:hallo@smakly.nl" 
-                    className="text-[#4F7DF3] hover:underline"
-                  >
-                    hallo@smakly.nl
-                  </a>
-                </p>
-              </section>
+            <div className="rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-gray-700 font-semibold">Type</th>
+                    <th className="text-left px-4 py-3 text-gray-700 font-semibold">Doel</th>
+                    <th className="text-left px-4 py-3 text-gray-700 font-semibold">Duur</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  <tr>
+                    <td className="px-4 py-3 font-medium text-gray-800">Functioneel</td>
+                    <td className="px-4 py-3 text-gray-600">Formuliergegevens onthouden</td>
+                    <td className="px-4 py-3 text-gray-600">Sessie</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium text-gray-800">Analytisch</td>
+                    <td className="px-4 py-3 text-gray-600">Google Ads conversie meten (gtag.js)</td>
+                    <td className="px-4 py-3 text-gray-600">90 dagen</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </section>
 
-            {/* Back link */}
-            <div className="mt-12 pt-8 border-t border-[#E8E6E1]">
-              <a 
-                href="/" 
-                className="inline-flex items-center gap-2 text-sm text-[#787571] hover:text-[#1A1918] transition-colors"
+          <section className="border-b border-gray-100 pb-8">
+            <h2 className="flex items-center gap-2 text-base font-bold text-gray-900 mb-3">
+              <span className="w-6 h-6 rounded-md bg-gray-100 text-gray-500 text-xs font-bold flex items-center justify-center">3</span>
+              Google Ads (gtag.js)
+            </h2>
+            <p>
+              Wij maken gebruik van Google Ads (gtag.js, ID: AW-989714763) om bij te houden of
+              bezoekers na het klikken op een advertentie een klus plaatsen. Google kan deze
+              informatie opslaan. Meer informatie:{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FF6A00] hover:underline"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Terug naar home
+                Google Privacybeleid
               </a>
-            </div>
-          </div>
+              .
+            </p>
+          </section>
+
+          <section className="border-b border-gray-100 pb-8">
+            <h2 className="flex items-center gap-2 text-base font-bold text-gray-900 mb-3">
+              <span className="w-6 h-6 rounded-md bg-gray-100 text-gray-500 text-xs font-bold flex items-center justify-center">4</span>
+              Cookies beheren of weigeren
+            </h2>
+            <p>
+              U kunt cookies beheren of verwijderen via de instellingen van uw browser. Let op:
+              het uitschakelen van cookies kan de werking van de website beïnvloeden. Zie voor
+              instructies:{" "}
+              <a
+                href="https://www.allaboutcookies.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FF6A00] hover:underline"
+              >
+                allaboutcookies.org
+              </a>
+              .
+            </p>
+          </section>
+
+          <section>
+            <h2 className="flex items-center gap-2 text-base font-bold text-gray-900 mb-3">
+              <span className="w-6 h-6 rounded-md bg-gray-100 text-gray-500 text-xs font-bold flex items-center justify-center">5</span>
+              Contact
+            </h2>
+            <p>
+              Vragen over ons cookiebeleid?{" "}
+              <a href="mailto:privacy@smakly.nl" className="text-[#FF6A00] hover:underline">
+                privacy@smakly.nl
+              </a>
+            </p>
+          </section>
+        </div>
+
+        {/* Back link */}
+        <div className="mt-12 pt-8 border-t border-gray-100">
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-gray-700 transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Terug naar home
+          </a>
         </div>
       </main>
 
-      {/* Simple footer */}
-      <footer className="py-8 border-t border-[#E8E6E1]">
-        <div className="container mx-auto">
-          <p className="text-xs text-[#A8A5A0] text-center">
-            © 2025 Smakly
-          </p>
-        </div>
+      <footer className="bg-gray-900 py-5 px-6 text-center">
+        <p className="text-sm text-gray-500">© 2026 Smakly · Amsterdam</p>
       </footer>
     </div>
   );
 }
-
-

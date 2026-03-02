@@ -7,7 +7,7 @@ const STEPS = [
   {
     num: 2,
     title: "Wij zoeken een vakman",
-    desc: "We sturen je klus door naar betrouwbare vakmensen bij jou in de buurt. Zij reageren snel.",
+    desc: "We sturen je klus door naar geselecteerde, betrouwbare vakmensen bij jou in de buurt.",
   },
   {
     num: 3,
@@ -18,26 +18,26 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-[#FAFAFA] border-y border-[#EBEBEB] py-16 sm:py-20">
-      <div className="container mx-auto px-5 sm:px-6">
-        <div className="text-center text-xs font-bold uppercase tracking-widest text-[#E84500] mb-2">
+    <section className="bg-gray-50 border-y border-gray-100 py-16 sm:py-20">
+      <div className="max-w-lg mx-auto px-5">
+        <p className="text-center text-xs font-semibold uppercase tracking-widest text-[#FF6A00] mb-2">
           Hoe het werkt
-        </div>
-        <h2 className="text-center text-2xl sm:text-3xl font-extrabold text-[#0C0C0C] tracking-tight mb-10">
+        </p>
+        <h2 className="text-center text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-10">
           In 3 stappen klus geregeld
         </h2>
-        <div className="max-w-[540px] mx-auto space-y-3">
+        <div className="space-y-3">
           {STEPS.map((s) => (
             <div
               key={s.num}
-              className="flex gap-4 p-5 bg-white border border-[#EBEBEB] rounded-xl shadow-sm"
+              className="flex gap-4 p-5 bg-white border border-gray-100 rounded-xl shadow-sm"
             >
-              <div className="w-8 h-8 shrink-0 rounded-lg bg-[#E84500] text-white font-bold text-sm flex items-center justify-center">
+              <div className="w-8 h-8 shrink-0 rounded-lg bg-[#FF6A00] text-white font-bold text-sm flex items-center justify-center">
                 {s.num}
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#0C0C0C] mb-0.5">{s.title}</h3>
-                <p className="text-[13px] text-[#6B6B6B] leading-relaxed">{s.desc}</p>
+                <h3 className="text-sm font-semibold text-gray-900 mb-1">{s.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
               </div>
             </div>
           ))}
