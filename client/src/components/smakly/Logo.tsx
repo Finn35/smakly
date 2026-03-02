@@ -9,6 +9,7 @@ interface LogoProps {
   size?: "sm" | "md" | "lg";
   variant?: "default" | "mono" | "gradient" | "white";
   showWordmark?: boolean;
+  withHat?: boolean;
   className?: string;
 }
 
@@ -16,6 +17,7 @@ export default function Logo({
   size = "md", 
   variant = "default",
   showWordmark = true, 
+  withHat = false,
   className = "" 
 }: LogoProps) {
   const sizes = {
@@ -42,22 +44,29 @@ export default function Logo({
   const textColorClass = {
     default: "text-[#1A1918]",
     mono: "text-[#1A1918]",
-    gradient: "bg-gradient-to-r from-[#4F7DF3] to-[#8B5CF6] bg-clip-text text-transparent",
+    gradient: "bg-gradient-to-r from-[#E84500] to-[#E84500] bg-clip-text text-transparent",
     white: "text-white",
   }[variant];
 
   const color = getColor();
+  const accentColor = variant === "white" ? "#FFFFFF" : "#E84500";
 
   return (
     <div className={`flex items-center ${gap} ${className}`}>
-      {/* Icon - Geometric capsule */}
+      {/* Icon - Geometric capsule, optionally with hard hat */}
       <div 
-        className={variant === "gradient" 
-          ? "rounded-lg bg-gradient-to-br from-[#4F7DF3] to-[#8B5CF6] flex items-center justify-center"
-          : "flex items-center justify-center"
-        }
-        style={variant === "gradient" ? { width: icon, height: icon } : undefined}
+        className={`relative flex items-center justify-center ${variant === "gradient" ? "rounded-lg" : ""}`}
+        style={variant === "gradient" ? { width: icon, height: icon, background: "linear-gradient(135deg, #E84500, #D63D00)" } : undefined}
       >
+        {withHat && (
+          <div className="absolute -top-1 left-1/2 -translate-x-1/2" style={{ width: icon * 0.5, height: icon * 0.25 }}>
+            <svg viewBox="0 0 24 12" fill="none" className="w-full h-full">
+              <path d="M2 8c0-2 2-4 10-4s10 2 10 4v2H2V8z" fill={accentColor} stroke={accentColor} strokeWidth="0.5" />
+              <path d="M2 8h20" stroke={accentColor} strokeWidth="0.5" />
+              <ellipse cx="12" cy="4" rx="8" ry="3" fill={accentColor} opacity="0.9" />
+            </svg>
+          </div>
+        )}
         <svg 
           width={variant === "gradient" ? icon * 0.5 : icon * 0.7} 
           height={variant === "gradient" ? icon * 0.65 : icon * 0.9} 
@@ -102,10 +111,14 @@ export default function Logo({
         </svg>
       </div>
       
-      {/* Wordmark */}
+      {/* Wordmark - withHat shows "Smak" + orange "ly" */}
       {showWordmark && (
-        <span className={`font-medium tracking-tight ${text} ${textColorClass}`}>
-          smakly
+        <span className={`font-bold tracking-tight ${text} ${withHat ? "text-[#0C0C0C]" : textColorClass}`}>
+          {withHat ? (
+            <>Smak<span className="text-[#E84500]">ly</span></>
+          ) : (
+            "smakly"
+          )}
         </span>
       )}
     </div>

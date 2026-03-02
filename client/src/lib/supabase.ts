@@ -62,6 +62,36 @@ export async function submitLead(data: LeadSubmission) {
   return { success: true };
 }
 
+// Klus (job) submission - handyman finder form
+export interface KlusSubmission {
+  category: string;
+  description: string;
+  postcode: string;
+  naam: string;
+  telefoon: string;
+}
+
+export async function submitKlus(data: KlusSubmission) {
+  const { error } = await supabase
+    .from('klussen')
+    .insert([{
+      category: data.category,
+      description: data.description,
+      postcode: data.postcode,
+      naam: data.naam,
+      telefoon: data.telefoon,
+      user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+      source: 'landing_page',
+    }]);
+
+  if (error) {
+    console.error('Error submitting klus:', error);
+    throw new Error('Failed to submit klus');
+  }
+
+  return { success: true };
+}
+
 // Contact message submission (footer form)
 export interface ContactMessage {
   naam: string;
