@@ -22,19 +22,19 @@ export default function SmaklyLanding() {
             {/* Pill */}
             <div className="inline-flex items-center gap-2 bg-[#FF6A00]/[0.07] border border-[#FF6A00]/20 text-[#FF6A00] px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF6A00] animate-pulse" />
-              Klein klusje? Wij regelen het
+              Voor de kleine klussen die blijven liggen
             </div>
 
             {/* Headline */}
             <h1 className="text-[2.5rem] sm:text-[3.5rem] font-bold text-gray-900 leading-[1.08] tracking-tight mb-4">
-              Klusser nodig?
+              Klein klusje?
               <br />
-              <span className="text-[#FF6A00]">Vandaag</span> geregeld.
+              <span className="text-[#FF6A00]">Morgen</span> geregeld.
             </h1>
 
             {/* Subtext */}
             <p className="text-base text-gray-500 leading-relaxed max-w-sm mx-auto mb-8">
-              Binnen 2 uur reactie van lokale vakmensen. Gratis klus plaatsen — geen verplichtingen.
+              Lekkende kraan, kapot slot, IKEA kast — kleine klussen die blijven liggen. Beschrijf je klus, wij regelen een vakman bij jou in de buurt.
             </p>
 
             {/* Multi-step form */}
@@ -63,11 +63,10 @@ export default function SmaklyLanding() {
         <section className="py-16 sm:py-20 px-5 bg-white border-t border-gray-100 text-center">
           <div className="max-w-sm mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-3">
-              Klus te klaren?
-              <br />Wij regelen het.
+              Nog een klusje<br />dat blijft liggen?
             </h2>
             <p className="text-gray-500 text-sm mb-7">
-              Gratis · Geen verplichtingen · Reactie binnen 2 uur
+              Gratis plaatsen · Geen verplichtingen · Reactie binnen 2 uur
             </p>
             <button
               onClick={scrollToForm}

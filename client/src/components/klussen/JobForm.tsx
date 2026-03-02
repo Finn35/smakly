@@ -136,8 +136,8 @@ export default function JobForm() {
         {/* ── Step 1: Category (auto-advance) ── */}
         {step === 1 && (
           <div>
-            <p className="text-base font-semibold text-gray-900 mb-1">Wat voor klus is het?</p>
-            <p className="text-xs text-gray-400 mb-5">Kies een categorie om te beginnen</p>
+            <p className="text-base font-semibold text-gray-900 mb-1">Wat moet er gebeuren?</p>
+            <p className="text-xs text-gray-400 mb-5">Kies het type klus — ook kleine klusjes zijn welkom</p>
             <div className="grid grid-cols-3 gap-3 sm:gap-4">
               {CATEGORIES.map((c) => (
                 <button
