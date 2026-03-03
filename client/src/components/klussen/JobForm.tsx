@@ -99,11 +99,14 @@ export default function JobForm() {
             <br />Je hoort binnen <strong className="text-gray-700">2 uur</strong> van ons.
           </p>
 
-          {/* Fake door: WhatsApp interest test */}
+          {/* Fake door: WhatsApp channel preference test */}
           {!waInterest ? (
             <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
-              <p className="text-xs text-gray-500 mb-3">
-                Wil je updates liever via WhatsApp ontvangen?
+              <p className="text-sm font-medium text-gray-700 mb-1">
+                Liever via WhatsApp verder?
+              </p>
+              <p className="text-xs text-gray-400 mb-3">
+                Wil je dat wij en de vakman je via WhatsApp bereiken in plaats van bellen?
               </p>
               <button
                 onClick={handleWaInterest}
@@ -117,7 +120,7 @@ export default function JobForm() {
             </div>
           ) : (
             <p className="text-xs text-gray-400 mt-2">
-              👍 Bedankt! We nemen dit mee.
+              👍 Top! We houden hier rekening mee.
             </p>
           )}
         </div>
