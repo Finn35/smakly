@@ -106,6 +106,11 @@ export async function markWhatsappInterest(id: string) {
   }
 }
 
+// Track WhatsApp interest clicks (hero or form_success)
+export async function trackWhatsappClick(source: 'hero' | 'form_success') {
+  await supabase.from('whatsapp_interest_clicks').insert([{ source }]);
+}
+
 // Contact message submission (footer form)
 export interface ContactMessage {
   naam: string;

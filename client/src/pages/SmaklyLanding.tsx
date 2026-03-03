@@ -1,13 +1,26 @@
+import { useState } from "react";
 import KlussenNavbar from "@/components/klussen/KlussenNavbar";
 import JobForm from "@/components/klussen/JobForm";
 import HowItWorks from "@/components/klussen/HowItWorks";
 import Testimonials from "@/components/klussen/Testimonials";
 import KlussenFooter from "@/components/klussen/KlussenFooter";
+import { trackWhatsappClick } from "@/lib/supabase";
 
+declare const gtag: (...args: unknown[]) => void;
 
 export default function SmaklyLanding() {
+  const [heroWaClicked, setHeroWaClicked] = useState(false);
+
   const scrollToForm = () => {
     document.getElementById("job-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const handleHeroWaClick = async () => {
+    setHeroWaClicked(true);
+    trackWhatsappClick('hero');
+    if (typeof gtag !== "undefined") {
+      gtag("event", "whatsapp_interest", { event_category: "engagement", event_label: "hero" });
+    }
   };
 
   return (
@@ -39,6 +52,22 @@ export default function SmaklyLanding() {
 
             {/* Multi-step form */}
             <JobForm />
+
+            {/* WhatsApp fake door — hero */}
+            <div className="mt-4 mb-2 text-center">
+              {!heroWaClicked ? (
+                <button
+                  onClick={handleHeroWaClick}
+                  className="text-xs text-gray-400 hover:text-[#25D366] transition-colors underline underline-offset-2"
+                >
+                  📱 Liever je klus via WhatsApp doorgeven?
+                </button>
+              ) : (
+                <p className="text-xs text-gray-400">
+                  👍 Bedankt! We nemen dit mee.
+                </p>
+              )}
+            </div>
 
             {/* Boutique trust badges */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-8 border-t border-gray-100 mt-2">

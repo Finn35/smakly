@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
-import { submitKlus, markWhatsappInterest } from "@/lib/supabase";
+import { submitKlus, markWhatsappInterest, trackWhatsappClick } from "@/lib/supabase";
+
+declare const gtag: (...args: unknown[]) => void;
 
 const CATEGORIES = [
   { id: "Loodgieter",   emoji: "🔧", label: "Loodgieter" },
@@ -78,7 +80,11 @@ export default function JobForm() {
   /* ── Fake door: track WhatsApp interest ── */
   const handleWaInterest = async () => {
     setWaInterest(true);
+    trackWhatsappClick('form_success');
     if (submittedId) await markWhatsappInterest(submittedId);
+    if (typeof gtag !== "undefined") {
+      gtag("event", "whatsapp_interest", { event_category: "engagement", event_label: "form_success" });
+    }
   };
 
   /* ── Success state ── */
