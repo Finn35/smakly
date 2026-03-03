@@ -8,7 +8,7 @@ const CATEGORIES = [
   { id: "Elektricien",  emoji: "⚡", label: "Elektricien" },
   { id: "Schilder",     emoji: "🎨", label: "Schilder" },
   { id: "Timmerman",    emoji: "🪚", label: "Timmerman" },
-  { id: "IKEA montage", emoji: "🛋️", label: "IKEA montage" },
+  { id: "IKEA montage", emoji: "🛋️", label: "IKEA" },
   { id: "Schoonmaak",   emoji: "🧹", label: "Schoonmaak" },
 ];
 

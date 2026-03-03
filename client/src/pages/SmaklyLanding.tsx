@@ -58,7 +58,7 @@ export default function SmaklyLanding() {
               {!heroWaClicked ? (
                 <button
                   onClick={handleHeroWaClick}
-                  className="text-xs text-gray-400 hover:text-[#25D366] transition-colors underline underline-offset-2"
+                  className="text-xs text-gray-400 hover:text-[#25D366] transition-colors underline underline-offset-2 py-2 px-3"
                 >
                   📱 Liever je klus via WhatsApp doorgeven?
                 </button>
