@@ -103,10 +103,10 @@ export default function JobForm() {
           {!waInterest ? (
             <div className="border border-gray-100 rounded-xl p-4 bg-gray-50">
               <p className="text-sm font-medium text-gray-700 mb-1">
-                Liever via WhatsApp verder?
+                Had je dit liever via WhatsApp gedaan?
               </p>
               <p className="text-xs text-gray-400 mb-3">
-                Wil je dat wij en de vakman je via WhatsApp bereiken in plaats van bellen?
+                In plaats van een formulier — gewoon een berichtje sturen.
               </p>
               <button
                 onClick={handleWaInterest}
