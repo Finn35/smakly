@@ -72,7 +72,7 @@ export interface KlusSubmission {
 }
 
 export async function submitKlus(data: KlusSubmission) {
-  const { error } = await supabase
+  const { data: inserted, error } = await supabase
     .from('klussen')
     .insert([{
       category: data.category,
@@ -82,14 +82,28 @@ export async function submitKlus(data: KlusSubmission) {
       telefoon: data.telefoon,
       user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
       source: 'landing_page',
-    }]);
+    }])
+    .select('id')
+    .single();
 
   if (error) {
     console.error('Error submitting klus:', error);
     throw new Error('Failed to submit klus');
   }
 
-  return { success: true };
+  return { success: true, id: inserted.id as string };
+}
+
+// Mark WhatsApp interest on a klus submission
+export async function markWhatsappInterest(id: string) {
+  const { error } = await supabase
+    .from('klussen')
+    .update({ whatsapp_interest: true })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error marking whatsapp interest:', error);
+  }
 }
 
 // Contact message submission (footer form)
