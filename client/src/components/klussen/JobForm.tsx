@@ -32,7 +32,7 @@ export default function JobForm() {
   const honeypotRef  = useRef<HTMLInputElement>(null);
   const startTimeRef = useRef(Date.now());
 
-  const canStep2 = description.trim().length > 10 && postcode.trim().length >= 6;
+  const canStep2 = description.trim().length > 2 && postcode.trim().length >= 6;
   const canStep3 = naam.trim().length > 1 && telefoon.replace(/\s/g, "").length >= 9;
 
   /* Auto-advance: select category → step 2 after 350ms flash */
