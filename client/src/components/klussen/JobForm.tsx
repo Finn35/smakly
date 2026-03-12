@@ -46,7 +46,10 @@ export default function JobForm() {
     if (Date.now() - startTimeRef.current < 8000) { setSuccess(true); return; }
 
     const pc = postcode.trim().toUpperCase();
-    const ph = telefoon.replace(/\s/g, "");
+    const ph = telefoon
+      .replace(/\s/g, "")
+      .replace(/^\+31/, "0")
+      .replace(/^0031/, "0");
 
     if (!POSTCODE_REGEX.test(pc)) { setPostcodeErr(true); return; }
     if (!PHONE_REGEX.test(ph))    { setPhoneErr(true);    return; }
@@ -257,7 +260,7 @@ export default function JobForm() {
               className={`${input} mb-3`}
               autoFocus
             />
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2 mb-1">
               <div className="flex items-center gap-1 py-3 px-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-500 shrink-0">
                 🇳🇱 +31
               </div>
@@ -267,13 +270,19 @@ export default function JobForm() {
                 onChange={(e) => { setTelefoon(e.target.value); setPhoneErr(false); }}
                 placeholder="06 12 34 56 78"
                 autoComplete="tel"
-                maxLength={12}
+                maxLength={15}
                 className={phoneErr
                   ? "flex-1 py-3 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
                   : "flex-1 py-3 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:border-[#FF6A00] focus:bg-white focus:outline-none transition-colors"
                 }
               />
             </div>
+            {phoneErr && (
+              <p className="text-red-500 text-xs mb-4 ml-1">
+                Vul een geldig Nederlands mobiel nummer in (bijv. 06 12 34 56 78)
+              </p>
+            )}
+            {!phoneErr && <div className="mb-5" />}
             <button
               type="button"
               onClick={handleSubmit}
