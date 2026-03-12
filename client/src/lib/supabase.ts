@@ -72,9 +72,12 @@ export interface KlusSubmission {
 }
 
 export async function submitKlus(data: KlusSubmission) {
-  const { data: inserted, error } = await supabase
+  const id = crypto.randomUUID();
+
+  const { error } = await supabase
     .from('klussen')
     .insert([{
+      id,
       category: data.category,
       description: data.description,
       postcode: data.postcode,
@@ -82,16 +85,14 @@ export async function submitKlus(data: KlusSubmission) {
       telefoon: data.telefoon,
       user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
       source: 'landing_page',
-    }])
-    .select('id')
-    .single();
+    }]);
 
   if (error) {
     console.error('Error submitting klus:', error);
     throw new Error('Failed to submit klus');
   }
 
-  return { success: true, id: inserted.id as string };
+  return { success: true, id };
 }
 
 // Mark WhatsApp interest on a klus submission
