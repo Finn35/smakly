@@ -69,6 +69,15 @@ export default function JobForm() {
       });
       setSubmittedId(result.id);
       setSuccess(true);
+
+      // Google Ads conversion
+      if (typeof gtag !== "undefined") {
+        gtag("event", "conversion", {
+          send_to: "AW-989714763",
+          event_category: "form",
+          event_label: "klus_submitted",
+        });
+      }
     } catch {
       setError("Er ging iets mis. Probeer het opnieuw.");
     } finally {
