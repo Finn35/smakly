@@ -298,7 +298,7 @@ export default function JobForm() {
               disabled={!canStep3 || submitting}
               className="w-full py-3.5 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
             >
-              {submitting ? "Bezig..." : "✓ Klus plaatsen — gratis"}
+              {submitting ? "Bezig..." : "✓ Plaats je klus gratis"}
             </button>
             <p className="text-center text-[11px] text-gray-400 mt-3">
               Geen spam · Geen verplichtingen · Jouw gegevens zijn veilig
