@@ -1,23 +1,25 @@
-import { useState } from "react";
 import KlussenNavbar from "@/components/klussen/KlussenNavbar";
 import JobForm from "@/components/klussen/JobForm";
 import HowItWorks from "@/components/klussen/HowItWorks";
 import Testimonials from "@/components/klussen/Testimonials";
 import KlussenFooter from "@/components/klussen/KlussenFooter";
 import { trackWhatsappClick } from "@/lib/supabase";
+import { MessageCircle } from "lucide-react";
+import { toast } from "sonner";
 
 declare const gtag: (...args: unknown[]) => void;
 
 export default function SmaklyLanding() {
-  const [heroWaClicked, setHeroWaClicked] = useState(false);
-
   const scrollToForm = () => {
     document.getElementById("job-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  const handleHeroWaClick = async () => {
-    setHeroWaClicked(true);
-    trackWhatsappClick('hero');
+  const handleHeroWaClick = () => {
+    toast("WhatsApp wordt binnenkort geactiveerd! Vul ondertussen het formulier in.");
+    trackWhatsappClick('hero').catch((error) => {
+      console.error("Error tracking WhatsApp click:", error);
+    });
+    scrollToForm();
     if (typeof gtag !== "undefined") {
       gtag("event", "whatsapp_interest", { event_category: "engagement", event_label: "hero" });
     }
@@ -50,24 +52,25 @@ export default function SmaklyLanding() {
               Lekkende kraan, kapot slot, IKEA kast — kleine klussen die blijven liggen. Beschrijf je klus, wij regelen een vakman bij jou in de buurt.
             </p>
 
+            {/* WhatsApp CTA */}
+            <div className="max-w-[500px] mx-auto mb-4">
+              <button
+                type="button"
+                onClick={handleHeroWaClick}
+                className="w-full h-14 rounded-2xl bg-[#25D366] hover:bg-[#20be5c] text-white font-semibold text-base shadow-md transition-colors"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  Liever via WhatsApp?
+                </span>
+              </button>
+              <p className="text-center text-xs text-gray-400 mt-2">
+                Binnenkort actief. Gebruik voorlopig het formulier hieronder.
+              </p>
+            </div>
+
             {/* Multi-step form */}
             <JobForm />
-
-            {/* WhatsApp fake door — hero */}
-            <div className="mt-4 mb-2 text-center">
-              {!heroWaClicked ? (
-                <button
-                  onClick={handleHeroWaClick}
-                  className="text-xs text-gray-400 hover:text-[#25D366] transition-colors underline underline-offset-2 py-2 px-3"
-                >
-                  📱 Liever je klus via WhatsApp doorgeven?
-                </button>
-              ) : (
-                <p className="text-xs text-gray-400">
-                  👍 Bedankt! We nemen dit mee.
-                </p>
-              )}
-            </div>
 
             {/* Boutique trust badges */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-8 border-t border-gray-100 mt-2">
