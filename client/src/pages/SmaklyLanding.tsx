@@ -31,7 +31,7 @@ export default function SmaklyLanding() {
 
       <main>
         {/* ── Hero ── */}
-        <section className="bg-white pt-20 sm:pt-24 pb-14 px-5">
+        <section className="bg-white pt-18 sm:pt-24 pb-12 sm:pb-14 px-4 sm:px-5">
           <div className="max-w-lg mx-auto text-center">
 
             {/* Pill */}
@@ -41,14 +41,14 @@ export default function SmaklyLanding() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-[2.5rem] sm:text-[3.5rem] font-bold text-gray-900 leading-[1.08] tracking-tight mb-4">
+            <h1 className="text-[2.35rem] sm:text-[3.5rem] font-bold text-gray-900 leading-[1.05] tracking-tight mb-3">
               Klein klusje?
               <br />
               <span className="text-[#FF6A00]">Morgen</span> geregeld.
             </h1>
 
             {/* Subtext */}
-            <p className="text-base text-gray-500 leading-relaxed max-w-sm mx-auto mb-8">
+            <p className="text-[15px] sm:text-base text-gray-500 leading-relaxed max-w-sm mx-auto mb-7 sm:mb-8">
               Lekkende kraan, kapot slot, IKEA kast — kleine klussen die blijven liggen. Beschrijf je klus, wij regelen een vakman bij jou in de buurt.
             </p>
 
@@ -73,13 +73,13 @@ export default function SmaklyLanding() {
             <JobForm />
 
             {/* Boutique trust badges */}
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 pt-8 border-t border-gray-100 mt-2">
+            <div className="grid grid-cols-1 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-6 pt-7 sm:pt-8 border-t border-gray-100 mt-2">
               {[
                 { icon: "✦", text: "Persoonlijk geselecteerde vakmensen" },
                 { icon: "✦", text: "Gratis & vrijblijvend" },
                 { icon: "✦", text: "Reactie binnen 2 uur" },
               ].map((b) => (
-                <div key={b.text} className="flex items-center gap-2 text-sm text-gray-500">
+                <div key={b.text} className="flex items-center justify-center gap-2 text-sm text-gray-500">
                   <span className="text-[#FF6A00] text-xs">{b.icon}</span>
                   {b.text}
                 </div>

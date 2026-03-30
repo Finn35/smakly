@@ -31,6 +31,8 @@ export default function JobForm() {
   const [phoneErr,    setPhoneErr]    = useState(false);
   const honeypotRef  = useRef<HTMLInputElement>(null);
   const startTimeRef = useRef(Date.now());
+  const postcodeInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
   const canStep2 = description.trim().length > 2 && postcode.trim().length >= 6;
   const canStep3 = naam.trim().length > 1 && telefoon.replace(/\s/g, "").length >= 9;
@@ -51,8 +53,16 @@ export default function JobForm() {
       .replace(/^\+31/, "0")
       .replace(/^0031/, "0");
 
-    if (!POSTCODE_REGEX.test(pc)) { setPostcodeErr(true); return; }
-    if (!PHONE_REGEX.test(ph))    { setPhoneErr(true);    return; }
+    if (!POSTCODE_REGEX.test(pc)) {
+      setPostcodeErr(true);
+      postcodeInputRef.current?.focus();
+      return;
+    }
+    if (!PHONE_REGEX.test(ph)) {
+      setPhoneErr(true);
+      phoneInputRef.current?.focus();
+      return;
+    }
 
     setPostcodeErr(false);
     setPhoneErr(false);
@@ -160,7 +170,7 @@ export default function JobForm() {
         />
       </div>
 
-      <div className="p-6 sm:p-7">
+      <div className="p-5 sm:p-7">
         {/* Step dots */}
         <div className="flex gap-1.5 mb-6">
           {[1, 2, 3].map((s) => (
@@ -178,13 +188,13 @@ export default function JobForm() {
           <div>
             <p className="text-base font-semibold text-gray-900 mb-1">Wat moet er gebeuren?</p>
             <p className="text-xs text-gray-400 mb-5">Kies het type klus — ook kleine klusjes zijn welkom</p>
-            <div className="grid grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {CATEGORIES.map((c) => (
                 <button
                   key={c.id}
                   type="button"
                   onClick={() => pickCat(c.id)}
-                  className={`flex flex-col items-center justify-center gap-2 min-h-[95px] p-4 rounded-xl border transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center gap-2 min-h-[108px] p-4 rounded-xl border transition-all duration-200 ${
                     category === c.id
                       ? "border-[#FF6A00] bg-[#FF6A00]/[0.07] shadow-sm scale-[1.04]"
                       : "border-gray-100 bg-white shadow-sm hover:shadow-md hover:scale-[1.03] hover:border-[#FF6A00]"
@@ -220,6 +230,7 @@ export default function JobForm() {
               autoFocus
             />
             <input
+              ref={postcodeInputRef}
               type="text"
               value={postcode}
               onChange={(e) => { setPostcode(e.target.value); setPostcodeErr(false); }}
@@ -227,7 +238,7 @@ export default function JobForm() {
               autoComplete="postal-code"
               maxLength={7}
               className={`${postcodeErr
-                ? "w-full py-3 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
+                ? "w-full h-11 py-3 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
                 : input} mb-6`}
             />
             <input
@@ -242,7 +253,7 @@ export default function JobForm() {
               type="button"
               onClick={() => setStep(3)}
               disabled={!canStep2}
-              className="w-full py-3.5 bg-gray-900 hover:bg-gray-700 text-white font-semibold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="w-full h-12 bg-gray-900 hover:bg-gray-700 text-white font-semibold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
             >
               Volgende →
             </button>
@@ -274,6 +285,7 @@ export default function JobForm() {
                 🇳🇱 +31
               </div>
               <input
+                ref={phoneInputRef}
                 type="tel"
                 value={telefoon}
                 onChange={(e) => { setTelefoon(e.target.value); setPhoneErr(false); }}
@@ -281,8 +293,8 @@ export default function JobForm() {
                 autoComplete="tel"
                 maxLength={15}
                 className={phoneErr
-                  ? "flex-1 py-3 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
-                  : "flex-1 py-3 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:border-[#FF6A00] focus:bg-white focus:outline-none transition-colors"
+                  ? "flex-1 h-11 py-3 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
+                  : "flex-1 h-11 py-3 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:border-[#FF6A00] focus:bg-white focus:outline-none transition-colors"
                 }
               />
             </div>
@@ -296,7 +308,7 @@ export default function JobForm() {
               type="button"
               onClick={handleSubmit}
               disabled={!canStep3 || submitting}
-              className="w-full py-3.5 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
+              className="w-full h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
             >
               {submitting ? "Bezig..." : "✓ Plaats je klus gratis"}
             </button>
