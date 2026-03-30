@@ -6,6 +6,46 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Legacy handyman request form submission used by the main Home page.
+export interface FormSubmission {
+  service_type: string;
+  service_type_other?: string;
+  urgency: string;
+  description?: string;
+  postcode: string;
+  language_preference: string;
+  language_preference_other?: string;
+  name: string;
+  email: string;
+  phone?: string;
+}
+
+export async function submitForm(data: FormSubmission) {
+  const { error } = await supabase
+    .from('form_submissions')
+    .insert([{
+      service_type: data.service_type,
+      service_type_other: data.service_type_other || null,
+      urgency: data.urgency,
+      description: data.description || null,
+      postcode: data.postcode,
+      language_preference: data.language_preference,
+      language_preference_other: data.language_preference_other || null,
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+      source: 'home_page',
+    }]);
+
+  if (error) {
+    console.error('Error submitting form:', error);
+    throw new Error('Failed to submit form');
+  }
+
+  return { success: true };
+}
+
 // Smakly landing page form submission (demo request)
 export interface SmaklyFormSubmission {
   naam: string;

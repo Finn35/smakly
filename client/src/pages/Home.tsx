@@ -3,15 +3,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Check, Clock, Shield, Sparkles, ArrowRight, Star, Lock, Zap, Wrench } from 'lucide-react';
-import { submitForm } from '@/lib/supabase';
-import { useState } from 'react';
+import { Check, Clock, Shield, Sparkles, ArrowRight, Star, Lock, Zap, Wrench, MessageCircle } from 'lucide-react';
+import { submitForm, trackWhatsappClick } from '@/lib/supabase';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Home() {
   const { t, language } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
     serviceType: '',
@@ -95,6 +96,43 @@ export default function Home() {
       newErrors.email = t('emailInvalid');
     }
     setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      const errorFieldOrder = [
+        'serviceType',
+        'serviceTypeOther',
+        'urgency',
+        'postcode',
+        'languagePreference',
+        'name',
+        'email',
+      ] as const;
+
+      const firstErrorField = errorFieldOrder.find((field) => newErrors[field]);
+
+      if (firstErrorField) {
+        const errorTargets: Record<typeof firstErrorField, { sectionId: string; focusId?: string }> = {
+          serviceType: { sectionId: 'service-type-section' },
+          serviceTypeOther: { sectionId: 'service-type-section', focusId: 'serviceTypeOther' },
+          urgency: { sectionId: 'urgency-section' },
+          postcode: { sectionId: 'postcode-section', focusId: 'postcode' },
+          languagePreference: { sectionId: 'languagePreference-section', focusId: 'languagePreference' },
+          name: { sectionId: 'name-section', focusId: 'name' },
+          email: { sectionId: 'email-section', focusId: 'email' },
+        };
+
+        const target = errorTargets[firstErrorField];
+        document.getElementById(target.sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        if (target.focusId) {
+          const focusId = target.focusId;
+          window.setTimeout(() => {
+            document.getElementById(focusId)?.focus();
+          }, 250);
+        }
+      }
+    }
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -148,6 +186,14 @@ export default function Home() {
       website: '',
     });
     setErrors({});
+  };
+
+  const handleWhatsappClick = () => {
+    toast('WhatsApp wordt binnenkort geactiveerd! Vul ondertussen het formulier in.');
+    trackWhatsappClick('hero').catch((error) => {
+      console.error('Error tracking WhatsApp click:', error);
+    });
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const benefits = [
@@ -241,32 +287,49 @@ export default function Home() {
 
   return (
     <div className="flex-1 bg-[#FFFBF8]">
-      <div className="container py-6 lg:py-10">
+      <div className="container px-4 py-5 sm:px-6 sm:py-8 lg:py-10">
         {/* Hero - Compact */}
-        <div className="text-center mb-6 max-w-xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#3D2620] mb-2">
+        <div className="text-center mb-5 sm:mb-6 max-w-xl mx-auto">
+          <h1 className="text-[2.35rem] leading-[1.05] sm:text-4xl font-bold text-[#3D2620] mb-3">
             {t('headline')}
           </h1>
-          <p className="text-sm text-[#5F3A2D]">
+          <p className="text-[15px] sm:text-base text-[#5F3A2D] leading-relaxed max-w-md mx-auto">
             {t('subheadline')}
           </p>
         </div>
 
         {/* Benefits - Horizontal above form */}
-        <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-2 mb-6">
+        <div className="grid grid-cols-1 sm:flex sm:flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-2 mb-5 sm:mb-6">
           {benefits.map((item, i) => (
-            <div key={i} className="flex items-center gap-1.5 text-xs sm:text-sm text-[#5F3A2D]">
+            <div key={i} className="flex items-center justify-center gap-1.5 text-xs sm:text-sm text-[#5F3A2D]">
               <item.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E86A33] flex-shrink-0" />
               <span>{item.text}</span>
             </div>
           ))}
         </div>
 
+        {/* WhatsApp CTA */}
+        <div className="max-w-lg mx-auto mb-4">
+          <Button
+            type="button"
+            onClick={handleWhatsappClick}
+            className="w-full h-14 sm:h-15 rounded-2xl bg-[#25D366] hover:bg-[#20be5c] text-white font-semibold text-base shadow-md"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <MessageCircle className="w-5 h-5" />
+              Liever via WhatsApp?
+            </span>
+          </Button>
+          <p className="text-center text-xs text-[#7D4A38] mt-2">
+            Binnenkort actief. Gebruik voorlopig het formulier hieronder.
+          </p>
+        </div>
+
         {/* Form Card */}
-        <div className="max-w-lg mx-auto">
-          <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6 border border-[#E6C4B3]/30">
+        <div ref={formRef} className="max-w-lg mx-auto">
+          <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-[#E6C4B3]/30">
             <div className="mb-5">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between mb-2">
                 <h2 className="text-base font-semibold text-[#3D2620]">
                   {t('formTitle')}
                 </h2>
@@ -300,7 +363,7 @@ export default function Home() {
               </div>
 
               {/* Service Type - Chips */}
-              <div>
+              <div id="service-type-section">
                 <Label className="text-sm text-[#5F3A2D] mb-2 block">
                   {t('serviceTypeLabel')}
                 </Label>
@@ -314,7 +377,7 @@ export default function Home() {
                       <RadioGroupItem value={service.value} id={service.value} className="peer sr-only" />
                       <Label 
                         htmlFor={service.value} 
-                        className="inline-flex px-3 py-1.5 text-sm rounded-full border border-[#E6C4B3] cursor-pointer hover:border-[#E86A33] peer-data-[state=checked]:border-[#E86A33] peer-data-[state=checked]:bg-[#E86A33] peer-data-[state=checked]:text-white transition-all"
+                        className="inline-flex min-h-11 items-center px-3.5 py-2 text-sm rounded-full border border-[#E6C4B3] cursor-pointer hover:border-[#E86A33] peer-data-[state=checked]:border-[#E86A33] peer-data-[state=checked]:bg-[#E86A33] peer-data-[state=checked]:text-white transition-all"
                       >
                         {service.label}
                       </Label>
@@ -323,17 +386,19 @@ export default function Home() {
                 </RadioGroup>
                 {formData.serviceType === 'other' && (
                   <Input
+                    id="serviceTypeOther"
                     placeholder={t('otherPlaceholder')}
                     value={formData.serviceTypeOther}
                     onChange={(e) => setFormData({ ...formData, serviceTypeOther: e.target.value })}
-                    className="mt-2 h-9 text-sm rounded-lg border-[#E6C4B3]"
+                    className="mt-2 h-11 text-sm rounded-lg border-[#E6C4B3]"
                   />
                 )}
                 {errors.serviceType && <p className="text-red-500 text-xs mt-1">{errors.serviceType}</p>}
+                {errors.serviceTypeOther && <p className="text-red-500 text-xs mt-1">{errors.serviceTypeOther}</p>}
               </div>
 
               {/* Urgency - Chips */}
-              <div>
+              <div id="urgency-section">
                 <Label className="text-sm text-[#5F3A2D] mb-2 block">
                   {t('urgencyLabel')}
                 </Label>
@@ -347,7 +412,7 @@ export default function Home() {
                       <RadioGroupItem value={level.value} id={level.value} className="peer sr-only" />
                       <Label 
                         htmlFor={level.value} 
-                        className="inline-flex px-3 py-1.5 text-sm rounded-full border border-[#E6C4B3] cursor-pointer hover:border-[#E86A33] peer-data-[state=checked]:border-[#E86A33] peer-data-[state=checked]:bg-[#E86A33] peer-data-[state=checked]:text-white transition-all"
+                        className="inline-flex min-h-11 items-center px-3.5 py-2 text-sm rounded-full border border-[#E6C4B3] cursor-pointer hover:border-[#E86A33] peer-data-[state=checked]:border-[#E86A33] peer-data-[state=checked]:bg-[#E86A33] peer-data-[state=checked]:text-white transition-all"
                       >
                         {level.label}
                       </Label>
@@ -376,8 +441,8 @@ export default function Home() {
               </div>
 
               {/* Postcode + Language - 2 columns */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div id="postcode-section">
                   <Label htmlFor="postcode" className="text-sm text-[#5F3A2D] mb-1.5 block">
                     {t('postcodeLabel')}
                   </Label>
@@ -386,7 +451,7 @@ export default function Home() {
                     placeholder="1234 AB"
                     value={formData.postcode}
                     onChange={(e) => setFormData({ ...formData, postcode: e.target.value })}
-                    className="h-9 text-sm rounded-lg border-[#E6C4B3]"
+                    className="h-11 text-sm rounded-lg border-[#E6C4B3]"
                   />
                   <p className="text-xs text-[#7D4A38] mt-1">
                     {language === 'nl' ? 'Bijv. 1234 AB' : language === 'en' ? 'E.g. 1234 AB' : 'Örn. 1234 AB'}
@@ -394,7 +459,7 @@ export default function Home() {
                   {errors.postcode && <p className="text-red-500 text-xs mt-1">{errors.postcode}</p>}
                 </div>
 
-                <div>
+                <div id="languagePreference-section">
                   <Label htmlFor="languagePreference" className="text-sm text-[#5F3A2D] mb-1.5 block">
                     {t('languagePreferenceLabel')}
                   </Label>
@@ -402,7 +467,7 @@ export default function Home() {
                     id="languagePreference"
                     value={formData.languagePreference}
                     onChange={(e) => setFormData({ ...formData, languagePreference: e.target.value })}
-                    className="w-full h-9 px-3 text-sm rounded-lg border border-[#E6C4B3] bg-white focus:outline-none focus:border-[#E86A33]"
+                    className="w-full h-11 px-3 text-sm rounded-lg border border-[#E6C4B3] bg-white focus:outline-none focus:border-[#E86A33]"
                   >
                     <option value="">{t('selectPlaceholder')}</option>
                     {languagePreferences.map((lang) => (
@@ -414,8 +479,8 @@ export default function Home() {
               </div>
 
               {/* Name + Email - 2 columns */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div id="name-section">
                   <Label htmlFor="name" className="text-sm text-[#5F3A2D] mb-1.5 block">
                     {t('nameLabel')}
                   </Label>
@@ -423,12 +488,12 @@ export default function Home() {
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="h-9 text-sm rounded-lg border-[#E6C4B3]"
+                    className="h-11 text-sm rounded-lg border-[#E6C4B3]"
                   />
                   {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
 
-                <div>
+                <div id="email-section">
                   <Label htmlFor="email" className="text-sm text-[#5F3A2D] mb-1.5 block">
                     {t('emailLabel')}
                   </Label>
@@ -437,7 +502,7 @@ export default function Home() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="h-9 text-sm rounded-lg border-[#E6C4B3]"
+                    className="h-11 text-sm rounded-lg border-[#E6C4B3]"
                   />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
@@ -453,14 +518,14 @@ export default function Home() {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="h-9 text-sm rounded-lg border-[#E6C4B3]"
+                  className="h-11 text-sm rounded-lg border-[#E6C4B3]"
                 />
               </div>
 
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-[#E86A33] hover:bg-[#D55A25] text-white font-semibold h-11 rounded-xl"
+                className="w-full bg-[#E86A33] hover:bg-[#D55A25] text-white font-semibold h-12 rounded-xl"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -477,7 +542,7 @@ export default function Home() {
               </Button>
 
               {/* Trust indicators */}
-              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-2 text-xs text-[#7D4A38]">
+              <div className="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-6 pt-2 text-xs text-[#7D4A38]">
                 <span className="flex items-center justify-center gap-1.5">
                   <Star className="w-3.5 h-3.5 text-[#E86A33]" />
                   {trustText.fast[language]}
