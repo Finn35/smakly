@@ -65,7 +65,7 @@ export default function SmaklyLanding() {
                 </span>
               </button>
               <p className="text-center text-xs text-gray-400 mt-2">
-                Binnenkort actief. Gebruik voorlopig het formulier hieronder.
+                of beschrijf je klus hieronder
               </p>
             </div>
 
