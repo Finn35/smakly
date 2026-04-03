@@ -1,30 +1,53 @@
 import { useRef, useState } from "react";
+import { submitKlus } from "@/lib/supabase";
+
+declare const gtag: (...args: unknown[]) => void;
 
 const OPTIONS = [
-  { id: "ikea-montage", label: "IKEA montage", emoji: "🛠️" },
-  { id: "reparatie", label: "Reparatie", emoji: "🔧" },
-  { id: "installatie", label: "Installatie", emoji: "⚡" },
-  { id: "anders", label: "Anders", emoji: "📝" },
+  { id: "ikea-montage", label: "IKEA montage", emoji: "🛠️", backendCategory: "IKEA montage" },
+  { id: "reparatie", label: "Reparatie", emoji: "🔧", backendCategory: "Timmerman" },
+  { id: "installatie", label: "Installatie", emoji: "⚡", backendCategory: "Elektricien" },
+  { id: "anders", label: "Anders", emoji: "📝", backendCategory: "Timmerman" },
 ];
 
 const POSTCODE_REGEX = /^[1-9][0-9]{3}\s?[A-Z]{2}$/i;
+const PHONE_REGEX = /^(06|6)[0-9]{8}$/;
 
 export default function JobForm() {
   const [step, setStep] = useState(1);
   const [category, setCategory] = useState("");
   const [postcode, setPostcode] = useState("");
   const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [postcodeErr, setPostcodeErr] = useState(false);
+  const [phoneErr, setPhoneErr] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  const startTimeRef = useRef(Date.now());
   const postcodeInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
   const pickCategory = (id: string) => {
     setCategory(id);
     setTimeout(() => setStep(2), 180);
   };
 
-  const handleSubmit = async () => {
+  const resolveBackendCategory = () => {
+    const selectedOption = OPTIONS.find((option) => option.id === category);
+    const lowerDescription = description.toLowerCase();
+
+    if (category === "reparatie" || category === "installatie" || category === "anders") {
+      if (/(kraan|lek|lekkage|afvoer|wc|toilet|douche|water)/.test(lowerDescription)) return "Loodgieter";
+      if (/(stroom|lamp|stopcontact|schakelaar|elektra|elektr)/.test(lowerDescription)) return "Elektricien";
+      if (/(verf|schilder|muur|plafond)/.test(lowerDescription)) return "Schilder";
+    }
+
+    return selectedOption?.backendCategory ?? "Timmerman";
+  };
+
+  const handleContinue = () => {
     const normalizedPostcode = postcode.trim().toUpperCase();
 
     if (!POSTCODE_REGEX.test(normalizedPostcode)) {
@@ -34,12 +57,74 @@ export default function JobForm() {
     }
 
     setPostcodeErr(false);
+    setStep(3);
+  };
+
+  const handleSubmit = async () => {
+    if (honeypotRef.current?.value) {
+      setSuccess(true);
+      return;
+    }
+
+    if (Date.now() - startTimeRef.current < 3000) {
+      setSuccess(true);
+      return;
+    }
+
+    const normalizedPostcode = postcode.trim().toUpperCase();
+    const normalizedPhone = phone
+      .replace(/\s/g, "")
+      .replace(/^\+31/, "0")
+      .replace(/^0031/, "0");
+
+    if (!POSTCODE_REGEX.test(normalizedPostcode)) {
+      setPostcodeErr(true);
+      setStep(2);
+      postcodeInputRef.current?.focus();
+      return;
+    }
+
+    if (!PHONE_REGEX.test(normalizedPhone)) {
+      setPhoneErr(true);
+      phoneInputRef.current?.focus();
+      return;
+    }
+
+    setPhoneErr(false);
     setSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    try {
+      const selectedOption = OPTIONS.find((option) => option.id === category);
+      const backendCategory = resolveBackendCategory();
+      const enrichedDescription = [
+        `Aanvraagtype: ${selectedOption?.label ?? "Onbekend"}`,
+        description.trim() ? `Omschrijving: ${description.trim()}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n");
 
-    setSubmitting(false);
-    setSuccess(true);
+      await submitKlus({
+        category: backendCategory,
+        description: enrichedDescription,
+        postcode: normalizedPostcode,
+        naam: name.trim(),
+        telefoon: `+31${normalizedPhone.replace(/^0/, "")}`,
+      });
+
+      if (typeof gtag !== "undefined") {
+        gtag("event", "conversion", {
+          send_to: "AW-989714763",
+          event_category: "form",
+          event_label: "quote_intent_submitted",
+        });
+      }
+
+      setSuccess(true);
+    } catch {
+      setPhoneErr(false);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputClassName =
@@ -74,13 +159,13 @@ export default function JobForm() {
       <div className="h-[3px] bg-gray-100">
         <div
           className="h-full bg-[#FF6A00] transition-all duration-500 ease-out"
-          style={{ width: `${step === 1 ? 50 : 100}%` }}
+          style={{ width: `${(step / 3) * 100}%` }}
         />
       </div>
 
       <div className="p-5 sm:p-7">
         <div className="flex gap-1.5 mb-6">
-          {[1, 2].map((currentStep) => (
+          {[1, 2, 3].map((currentStep) => (
             <div
               key={currentStep}
               className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
@@ -134,7 +219,7 @@ export default function JobForm() {
               maxLength={7}
               className={postcodeErr
                 ? "w-full h-11 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
-                : `${inputClassName} mb-0`}
+                : inputClassName}
               autoFocus
             />
             {postcodeErr && (
@@ -163,8 +248,80 @@ export default function JobForm() {
               </button>
               <button
                 type="button"
+                onClick={handleContinue}
+                className="w-2/3 h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
+              >
+                Volgende
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div>
+            <p className="text-base font-semibold text-gray-900 mb-1">Hoe bereiken we je?</p>
+            <p className="text-xs text-gray-400 mb-5">Laat je naam en mobiele nummer achter</p>
+
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Jouw naam"
+              autoComplete="name"
+              maxLength={80}
+              className={`${inputClassName} mb-3`}
+              autoFocus
+            />
+
+            <input
+              ref={honeypotRef}
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="absolute -left-[9999px] opacity-0 pointer-events-none"
+            />
+
+            <div className="flex gap-2 mb-1">
+              <div className="flex items-center gap-1 py-3 px-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-500 shrink-0">
+                🇳🇱 +31
+              </div>
+              <input
+                ref={phoneInputRef}
+                type="tel"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  setPhoneErr(false);
+                }}
+                placeholder="06 12 34 56 78"
+                autoComplete="tel"
+                maxLength={15}
+                className={phoneErr
+                  ? "flex-1 h-11 px-4 bg-gray-50 border border-red-400 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none"
+                  : "flex-1 h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:border-[#FF6A00] focus:bg-white focus:outline-none transition-colors"
+                }
+              />
+            </div>
+            {phoneErr && (
+              <p className="text-red-500 text-xs mb-4 ml-1">
+                Vul een geldig Nederlands mobiel nummer in
+              </p>
+            )}
+            {!phoneErr && <div className="mb-5" />}
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                className="w-1/3 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl text-sm transition-colors"
+              >
+                Terug
+              </button>
+              <button
+                type="button"
                 onClick={handleSubmit}
-                disabled={submitting}
+                disabled={submitting || !name.trim() || !phone.trim()}
                 className="w-2/3 h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
               >
                 {submitting ? "Bezig..." : "Verstuur aanvraag"}
