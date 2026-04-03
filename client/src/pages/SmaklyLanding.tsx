@@ -26,14 +26,14 @@ export default function SmaklyLanding() {
 
             {/* Headline */}
             <h1 className="text-[2.35rem] sm:text-[3.5rem] font-bold text-gray-900 leading-[1.05] tracking-tight mb-3">
-              Klus in huis?
+              Wat kost jouw klus?
               <br />
-              <span className="text-[#FF6A00]">Ontvang direct een prijsindicatie</span>
+              <span className="text-[#FF6A00]">Ontdek het binnen 2 minuten</span>
             </h1>
 
             {/* Subtext */}
             <p className="text-[15px] sm:text-base text-gray-500 leading-relaxed max-w-sm mx-auto mb-7 sm:mb-8">
-              Beantwoord 2 korte vragen en ontvang snel een indicatie. Zonder gedoe, met snelle reactie.
+              Beantwoord 2 korte vragen en ontvang direct een prijsindicatie, zonder gedoe.
             </p>
 
             {/* Primary CTA */}
@@ -43,11 +43,12 @@ export default function SmaklyLanding() {
                 onClick={scrollToForm}
                 className="w-full h-14 rounded-2xl bg-[#FF6A00] hover:bg-[#e85f00] text-white font-semibold text-base shadow-md transition-colors"
               >
-                Ontvang prijsindicatie
+                Bereken mijn prijs
               </button>
-              <p className="text-center text-xs text-gray-400 mt-2">
-                Kost minder dan 1 minuut
-              </p>
+              <div className="text-center text-xs text-gray-400 mt-2 space-y-1">
+                <p>Kost minder dan 1 minuut</p>
+                <p>Vaak binnen 24 uur geholpen</p>
+              </div>
             </div>
 
             {/* Trust */}
@@ -57,7 +58,7 @@ export default function SmaklyLanding() {
                 {[
                   "Snelle reactie",
                   "Lokale vakmannen",
-                  "Duidelijke prijsindicatie",
+                  "Duidelijke prijs vooraf",
                 ].map((item) => (
                   <div key={item} className="flex items-center justify-center gap-2">
                     <span className="text-[#FF6A00] text-xs">✦</span>
@@ -88,7 +89,7 @@ export default function SmaklyLanding() {
               onClick={scrollToForm}
               className="bg-[#FF6A00] hover:bg-[#e85f00] text-white font-semibold px-8 py-3.5 rounded-xl transition-colors shadow-sm"
             >
-              Ontvang prijsindicatie
+              Bereken mijn prijs
             </button>
           </div>
         </section>
