@@ -36,8 +36,13 @@ export default function SmaklyLanding() {
               Beantwoord 2 korte vragen en ontvang direct een prijsindicatie, zonder gedoe.
             </p>
 
+            {/* Trust near CTA */}
+            <div className="text-sm text-gray-600 mb-3">
+              <p className="font-medium text-gray-700">✔ 100+ klussen geholpen • Snelle reactie</p>
+            </div>
+
             {/* Primary CTA */}
-            <div className="max-w-[500px] mx-auto mb-4">
+            <div className="max-w-[500px] mx-auto mb-5">
               <button
                 type="button"
                 onClick={scrollToForm}
@@ -46,14 +51,13 @@ export default function SmaklyLanding() {
                 Bereken mijn prijs
               </button>
               <div className="text-center text-xs text-gray-400 mt-2 space-y-1">
-                <p>Kost minder dan 1 minuut</p>
-                <p>Vaak binnen 24 uur geholpen</p>
+                <p>Je ziet direct een prijs na 2 stappen</p>
+                <p>Kost minder dan 1 minuut • Geen verplichtingen</p>
               </div>
             </div>
 
             {/* Trust */}
             <div className="text-sm text-gray-500 mb-6">
-              <p className="font-medium text-gray-700 mb-3">100+ klussen geholpen</p>
               <div className="grid grid-cols-1 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-6">
                 {[
                   "Snelle reactie",
@@ -83,7 +87,7 @@ export default function SmaklyLanding() {
               Snel weten waar je aan toe bent?
             </h2>
             <p className="text-gray-500 text-sm mb-7">
-              Beantwoord 2 korte vragen en ontvang snel een indicatie
+              Beantwoord 2 korte vragen en ga direct verder
             </p>
             <button
               onClick={scrollToForm}

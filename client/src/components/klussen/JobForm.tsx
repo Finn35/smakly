@@ -29,11 +29,6 @@ export default function JobForm() {
   const postcodeInputRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
-  const pickCategory = (id: string) => {
-    setCategory(id);
-    setTimeout(() => setStep(2), 180);
-  };
-
   const resolveBackendCategory = () => {
     const selectedOption = OPTIONS.find((option) => option.id === category);
     const lowerDescription = description.toLowerCase();
@@ -45,19 +40,6 @@ export default function JobForm() {
     }
 
     return selectedOption?.backendCategory ?? "Timmerman";
-  };
-
-  const handleContinue = () => {
-    const normalizedPostcode = postcode.trim().toUpperCase();
-
-    if (!POSTCODE_REGEX.test(normalizedPostcode)) {
-      setPostcodeErr(true);
-      postcodeInputRef.current?.focus();
-      return;
-    }
-
-    setPostcodeErr(false);
-    setStep(3);
   };
 
   const handleSubmit = async () => {
@@ -138,13 +120,13 @@ export default function JobForm() {
         className="bg-white rounded-2xl border border-gray-100 shadow-md overflow-hidden max-w-[500px] mx-auto mb-5"
       >
         <div className="h-[3px] bg-[#FF6A00]" />
-        <div className="p-8 text-center">
+      <div className="p-8 text-center">
           <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-green-50 flex items-center justify-center text-2xl text-green-600">
             ✓
           </div>
           <h3 className="text-lg font-bold text-gray-900 mb-2">Bedankt!</h3>
           <p className="text-sm text-gray-500 leading-relaxed">
-            We nemen snel contact met je op.
+            We nemen snel contact met je op met een prijsindicatie.
           </p>
         </div>
       </div>
@@ -159,13 +141,13 @@ export default function JobForm() {
       <div className="h-[3px] bg-gray-100">
         <div
           className="h-full bg-[#FF6A00] transition-all duration-500 ease-out"
-          style={{ width: `${(step / 3) * 100}%` }}
+          style={{ width: `${(step / 2) * 100}%` }}
         />
       </div>
 
       <div className="p-5 sm:p-7">
         <div className="flex gap-1.5 mb-6">
-          {[1, 2, 3].map((currentStep) => (
+          {[1, 2].map((currentStep) => (
             <div
               key={currentStep}
               className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
@@ -177,18 +159,21 @@ export default function JobForm() {
 
         {step === 1 && (
           <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[#FF6A00] mb-2">
+              Stap 1 van 2
+            </p>
             <p className="text-base font-semibold text-gray-900 mb-1">Wat moet er gebeuren?</p>
-            <p className="text-xs text-gray-400 mb-5">Kies wat het beste past</p>
+            <p className="text-xs text-gray-400 mb-5">Kies wat het beste past bij jouw klus</p>
             <div className="grid grid-cols-2 gap-3">
               {OPTIONS.map((option) => (
                 <button
                   key={option.id}
                   type="button"
-                  onClick={() => pickCategory(option.id)}
-                  className={`flex flex-col items-center justify-center gap-2 min-h-[108px] p-4 rounded-xl border transition-all duration-200 ${
+                  onClick={() => setCategory(option.id)}
+                  className={`flex flex-col items-center justify-center gap-2 min-h-[108px] p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
                     category === option.id
-                      ? "border-[#FF6A00] bg-[#FF6A00]/[0.07] shadow-sm scale-[1.02]"
-                      : "border-gray-100 bg-white shadow-sm hover:shadow-md hover:border-[#FF6A00]"
+                      ? "border-[#FF6A00] bg-[#FF6A00]/[0.08] shadow-md ring-2 ring-[#FF6A00]/10 scale-[1.02]"
+                      : "border-gray-100 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-[#FF6A00]/70"
                   }`}
                 >
                   <span className="text-2xl leading-none">{option.emoji}</span>
@@ -198,13 +183,27 @@ export default function JobForm() {
                 </button>
               ))}
             </div>
+
+            <div className="sticky bottom-0 pt-4 mt-4 bg-white/95 backdrop-blur-sm">
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                disabled={!category}
+                className="w-full h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
+              >
+                Volgende stap
+              </button>
+            </div>
           </div>
         )}
 
         {step === 2 && (
           <div>
-            <p className="text-base font-semibold text-gray-900 mb-1">Wat is je postcode?</p>
-            <p className="text-xs text-gray-400 mb-5">Optioneel kun je je klus kort toelichten</p>
+            <p className="text-sm font-semibold uppercase tracking-wide text-[#FF6A00] mb-2">
+              Stap 2 van 2
+            </p>
+            <p className="text-base font-semibold text-gray-900 mb-1">Waar en wat moet er gebeuren?</p>
+            <p className="text-xs text-gray-400 mb-5">Zo kunnen we je sneller helpen met een duidelijke prijs</p>
 
             <input
               ref={postcodeInputRef}
@@ -238,30 +237,6 @@ export default function JobForm() {
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:border-[#FF6A00] focus:bg-white focus:outline-none resize-none transition-colors mb-4"
             />
 
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="w-1/3 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl text-sm transition-colors"
-              >
-                Terug
-              </button>
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="w-2/3 h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm transition-colors shadow-sm"
-              >
-                Volgende
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div>
-            <p className="text-base font-semibold text-gray-900 mb-1">Hoe bereiken we je?</p>
-            <p className="text-xs text-gray-400 mb-5">Laat je naam en mobiele nummer achter</p>
-
             <input
               type="text"
               value={name}
@@ -270,7 +245,6 @@ export default function JobForm() {
               autoComplete="name"
               maxLength={80}
               className={`${inputClassName} mb-3`}
-              autoFocus
             />
 
             <input
@@ -310,22 +284,27 @@ export default function JobForm() {
             )}
             {!phoneErr && <div className="mb-5" />}
 
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep(2)}
-                className="w-1/3 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl text-sm transition-colors"
-              >
-                Terug
-              </button>
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={submitting || !name.trim() || !phone.trim()}
-                className="w-2/3 h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
-              >
-                {submitting ? "Bezig..." : "Verstuur aanvraag"}
-              </button>
+            <div className="sticky bottom-0 pt-4 bg-white/95 backdrop-blur-sm">
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="w-1/3 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl text-sm transition-colors"
+                >
+                  Terug
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={submitting || !name.trim() || !phone.trim()}
+                  className="w-2/3 h-12 bg-[#FF6A00] hover:bg-[#e85f00] text-white font-bold rounded-xl text-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors shadow-sm"
+                >
+                  {submitting ? "Bezig..." : "Bekijk mijn prijs"}
+                </button>
+              </div>
+              <p className="text-center text-[11px] text-gray-400 mt-3">
+                Geen verplichtingen • Snelle reactie
+              </p>
             </div>
           </div>
         )}
